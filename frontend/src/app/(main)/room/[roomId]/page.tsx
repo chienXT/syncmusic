@@ -9,7 +9,6 @@ import {
   memo,
   type CSSProperties,
 } from 'react';
-import Link from 'next/link';
 import { useParams, useSearchParams } from 'next/navigation';
 import { useAuthStore } from '@/store/authStore';
 import { useRoomStore } from '@/store/roomStore';
@@ -983,22 +982,6 @@ export default function RoomPage() {
 
         </aside>
       </div>
-
-      {/* ── Bottom nav ── */}
-      <nav className="rp-bottom-nav">
-        {[
-          { href: '/home', icon: '⌂', label: 'Trang chủ' },
-          { href: `/room/${roomCode}`, icon: '▮▮▮', label: 'Phòng', active: true },
-          { href: '/explore', icon: '⌖', label: 'Khám phá' },
-          { href: '/playlists', icon: '♫', label: 'Playlist' },
-          { href: '/profile', icon: '◎', label: 'Tôi' },
-        ].map(({ href, icon, label, active }) => (
-          <Link key={href} href={href} className={active ? 'active' : ''}>
-            <span className="rp-nav-icon">{icon}</span>
-            <span>{label}</span>
-          </Link>
-        ))}
-      </nav>
     </div>
   );
 }
