@@ -134,6 +134,12 @@ export const useRoomSocket = (roomId: string, handlers: RoomSocketHandlers = {})
     if (currentRoom?._id) {
       setKeepRoomAlive(false);
       setRoomMinimized(false);
+      setPlaybackState({
+        isPlaying: false,
+        currentTime: 0,
+        currentSong: null,
+        lastUpdateTime: Date.now(),
+      });
       await leaveRoom(currentRoom._id);
       emitLeaveRoom(socket);
     }

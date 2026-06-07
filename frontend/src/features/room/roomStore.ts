@@ -1,6 +1,8 @@
 import { create } from 'zustand';
 import { roomService } from './room.service';
+import { usePlayerStore } from '@/features/player/playerStore';
 import type { Room } from '@/types/room';
+
 
 interface RoomState {
   currentRoom: Room | null;
@@ -156,7 +158,8 @@ export const useRoomStore = create<RoomState>((set, get) => ({
     set({ isLoading: true });
     try {
       await roomService.leaveRoom(roomId);
-      set({ currentRoom: null, isHost: false, isModerator: false });
+      usePlayerStore.getState().reset();
+      set({ currentRoom: null, isHost: false, isModerator: false, keepRoomAlive: false, isRoomMinimized: false });
     } catch (error: any) {
       console.error('Leave room error:', error);
     } finally {
