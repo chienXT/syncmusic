@@ -176,6 +176,8 @@ export const userAPI = {
     api.post('/users/recently-played', { songId }),
   getRecentlyPlayed: () =>
     api.get('/users/recently-played'),
+  updateProfile: (data: { username?: string; bio?: string; avatar?: string }) =>
+    authAPI.updateProfile(data),
 };
 
 // Message API
