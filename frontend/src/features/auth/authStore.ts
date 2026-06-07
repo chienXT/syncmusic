@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 import { authService } from './auth.service';
 
 interface User {
-  _id: string;
+  _id?: string;
   username: string;
   email: string;
   avatar?: string;
