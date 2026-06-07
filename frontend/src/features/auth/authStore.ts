@@ -13,6 +13,11 @@ interface User {
   role?: 'user' | 'moderator' | 'admin';
   friends?: any[];
   currentRoom?: any;
+  preferences?: {
+    theme?: string;
+    notifications?: boolean;
+    autoPlay?: boolean;
+  };
 }
 
 interface AuthState {
