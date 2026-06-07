@@ -238,6 +238,28 @@ export default function RoomPage() {
     return Boolean(incomingKey && currentKey && incomingKey === currentKey && currentTimeRef.current > 2 && incomingTime <= 1);
   }, []);
 
+  useEffect(() => {
+    const pb = currentRoom?.playback;
+    if (!pb) return;
+
+    if (pb.currentSong) {
+      const hydratedSong = coerceSong(pb.currentSong);
+      if (hydratedSong && !currentSong) {
+        setCurrentSong(hydratedSong);
+      }
+    }
+
+    if (typeof pb.currentTime === 'number' && !Number.isNaN(pb.currentTime)) {
+      if (currentTime === 0) {
+        setCurrentTime(pb.currentTime);
+      }
+    }
+
+    if (typeof pb.isPlaying === 'boolean' && !isPlaying) {
+      setIsPlaying(pb.isPlaying);
+    }
+  }, [coerceSong, currentRoom?.playback, currentSong, currentTime, isPlaying, setCurrentSong, setCurrentTime, setIsPlaying]);
+
   // ── Socket ──
   const { chatMessages, sendMessage, doJoinRoom } = useRoomSocket(roomId, {
     onRoomState: (payload) => {
