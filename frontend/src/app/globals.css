@@ -1,0 +1,43 @@
+/* Global accessibility helpers */
+.skip-to-content {
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 9999;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(245, 166, 35, 0.45);
+  background: rgba(8, 8, 12, 0.96);
+  color: #fff3d7;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45), 0 0 22px rgba(245, 166, 35, 0.18);
+  transform: translateY(-160%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 180ms ease, opacity 180ms ease;
+}
+
+.skip-to-content:focus,
+.skip-to-content:focus-visible {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+  outline: 2px solid rgba(245, 166, 35, 0.8);
+  outline-offset: 3px;
+}
+
+@media (max-width: 560px) {
+  .app-shell-body {
+    max-width: none !important;
+    width: 100% !important;
+    padding: 0 !important;
+  }
+  
+  /* Make room UI stretch to the edges */
+  .rp-layout,
+  .room-page {
+    max-width: none !important;
+    width: 100% !important;
+  }
+}

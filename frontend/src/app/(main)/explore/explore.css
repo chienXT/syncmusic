@@ -1,0 +1,289 @@
+/* ═══════════════════════════════════════════════════════════════
+   Explore UI v1 — Premium Dark Neon Studio
+   Standalone stylesheet for the discover page
+═══════════════════════════════════════════════════════════════ */
+
+.ep-page {
+  min-height: 100dvh;
+  padding: 28px 32px 72px;
+  background:
+    radial-gradient(circle at 14% -10%, rgba(167, 139, 250, .22), transparent 32%),
+    radial-gradient(circle at 86% 8%, rgba(245, 166, 35, .16), transparent 28%),
+    linear-gradient(135deg, #030306 0%, #07070d 48%, #050507 100%);
+  color: #f3ede2;
+  font-family: var(--ff-body);
+}
+
+.ep-page::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.014) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(circle at center, black 0%, transparent 76%);
+  opacity: .7;
+}
+
+.ep-hero,
+.ep-discovery-panel,
+.ep-room-card,
+.ep-empty-state,
+.ep-mood-band {
+  position: relative;
+  z-index: 1;
+  border: 1px solid rgba(255, 255, 255, .09);
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.07), rgba(255,255,255,.025)),
+    rgba(10, 10, 15, .78);
+  box-shadow: 0 22px 70px rgba(0, 0, 0, .42), inset 0 1px 0 rgba(255,255,255,.07);
+  backdrop-filter: blur(22px) saturate(1.22);
+}
+
+.ep-hero {
+  overflow: hidden;
+  border-radius: 30px;
+  padding: 34px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(260px, .85fr);
+  gap: 26px;
+  margin-bottom: 18px;
+}
+
+.ep-hero-inner { position: relative; z-index: 1; }
+.ep-kicker {
+  display: inline-flex;
+  margin-bottom: 10px;
+  font-family: var(--ff-mono);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: #ffd28a;
+  font-size: 10px;
+}
+.ep-hero-title,
+.ep-section-title {
+  margin: 0;
+  font-family: var(--ff-display);
+  letter-spacing: -.03em;
+  line-height: 1.05;
+}
+.ep-hero-title {
+  font-size: clamp(34px, 5vw, 60px);
+  text-shadow: 0 0 34px rgba(245, 166, 35, .12);
+}
+.ep-hero-title em { color: #ffd28a; font-style: normal; }
+.ep-hero-desc,
+.ep-discovery-panel p,
+.ep-empty-state p,
+.ep-room-host {
+  color: rgba(243, 237, 226, .72);
+  line-height: 1.65;
+}
+.ep-hero-actions,
+.ep-room-footer,
+.ep-section-head,
+.ep-section-head--panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+.ep-hero-actions { margin-top: 20px; flex-wrap: wrap; }
+.ep-btn-primary,
+.ep-btn-secondary,
+.ep-join-btn,
+.ep-mood-chip,
+.ep-pill {
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.10);
+  transition: transform var(--ease), border-color var(--ease), box-shadow var(--ease), background var(--ease), color var(--ease);
+}
+.ep-btn-primary,
+.ep-join-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 18px;
+  background: radial-gradient(circle at 30% 20%, #ffe0a1, #f5a623 42%, #9a5b10 100%);
+  color: #070707;
+  box-shadow: 0 0 34px rgba(245, 166, 35, .22), 0 16px 32px rgba(0,0,0,.35);
+  font-weight: 800;
+  text-decoration: none;
+}
+.ep-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 18px;
+  background: rgba(255,255,255,.05);
+  color: #f3ede2;
+  text-decoration: none;
+}
+.ep-btn-primary:hover,
+.ep-btn-secondary:hover,
+.ep-join-btn:hover,
+.ep-mood-chip:hover {
+  transform: translateY(-2px);
+  border-color: rgba(245,166,35,.42);
+  box-shadow: 0 18px 40px rgba(0,0,0,.36), 0 0 24px rgba(245,166,35,.12);
+}
+.ep-hero-summary {
+  margin-top: 22px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.ep-summary-card {
+  padding: 14px;
+  border-radius: 20px;
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.08);
+}
+.ep-summary-card span,
+.ep-room-host,
+.ep-pill,
+.ep-genre-tag {
+  font-size: 12px;
+}
+.ep-summary-card strong { display: block; margin-top: 6px; font-size: 18px; }
+.ep-hero-deco {
+  position: relative;
+  min-height: 260px;
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 50% 40%, rgba(245,166,35,.20), transparent 24%),
+    radial-gradient(circle at 70% 60%, rgba(167,139,250,.16), transparent 28%),
+    rgba(255,255,255,.03);
+  overflow: hidden;
+}
+.ep-hero-deco span {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 211, 110, .85);
+  box-shadow: 0 0 18px rgba(245,166,35,.55);
+  animation: epFloat 7s ease-in-out infinite;
+}
+.ep-hero-deco span:nth-child(odd) { background: rgba(167,139,250,.85); }
+
+.ep-discovery-panel,
+.ep-empty-state,
+.ep-mood-band,
+.ep-room-card {
+  border-radius: 26px;
+}
+.ep-discovery-panel,
+.ep-empty-state,
+.ep-mood-band {
+  margin-top: 18px;
+  padding: 22px;
+}
+.ep-mood-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+.ep-mood-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 14px;
+  background: rgba(255,255,255,.05);
+  color: #f3ede2;
+}
+.ep-mood-chip.active {
+  background: rgba(245,166,35,.18);
+  border-color: rgba(245,166,35,.36);
+  color: #ffd28a;
+  box-shadow: 0 0 0 1px rgba(245,166,35,.12), 0 0 22px rgba(245,166,35,.10);
+}
+.ep-mood-chip--reset { background: rgba(251, 113, 133, .10); }
+.ep-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: rgba(255,255,255,.05);
+  color: rgba(243,237,226,.8);
+}
+.ep-pulse {
+  width: 7px; height: 7px; border-radius: 50%; background: #f5a623; box-shadow: 0 0 16px rgba(245,166,35,.6);
+  animation: epPulse 1.4s ease-in-out infinite;
+}
+.ep-room-grid {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+.ep-room-card { overflow: hidden; }
+.ep-room-cover {
+  position: relative;
+  height: 190px;
+  background-size: cover;
+  background-position: center;
+}
+.ep-room-cover-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(3,3,6,.12), rgba(3,3,6,.8));
+}
+.ep-live-badge,
+.ep-genre-tag {
+  position: absolute;
+  z-index: 1;
+  border-radius: 999px;
+  padding: 6px 10px;
+  background: rgba(0,0,0,.62);
+  border: 1px solid rgba(255,255,255,.10);
+  backdrop-filter: blur(10px);
+}
+.ep-live-badge { top: 12px; left: 12px; color: #ffd28a; font-family: var(--ff-mono); font-size: 10px; letter-spacing: .12em; }
+.ep-genre-tag { right: 12px; bottom: 12px; color: #fff; }
+.ep-room-body { padding: 18px; display: flex; flex-direction: column; gap: 10px; }
+.ep-room-name { margin: 0; font-family: var(--ff-display); font-size: 22px; }
+.ep-room-footer { margin-top: 4px; }
+.ep-listener-count { color: rgba(243,237,226,.72); font-family: var(--ff-mono); }
+.ep-join-btn { padding: 0 14px; min-height: 38px; text-decoration: none; }
+.ep-empty-state { text-align: center; }
+.ep-section-head--panel { margin-top: 18px; }
+.ep-room-card--loading,
+.ep-top-card--skeleton {
+  min-height: 280px;
+  overflow: hidden;
+  background: rgba(255,255,255,.04);
+}
+.ep-room-card--loading .ep-room-cover,
+.ep-top-card--skeleton .ep-room-cover { background: linear-gradient(90deg, rgba(255,255,255,.04), rgba(255,255,255,.12), rgba(255,255,255,.04)); background-size: 200% 100%; animation: epShimmer 1.4s ease-in-out infinite; }
+
+@media (max-width: 1100px) {
+  .ep-hero { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 760px) {
+  .ep-page { padding: 18px 14px 64px; }
+  .ep-hero { padding: 22px; }
+  .ep-hero-summary { grid-template-columns: 1fr; }
+  .ep-room-grid { grid-template-columns: 1fr; }
+}
+
+@keyframes epPulse {
+  0%,100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(.72); opacity: .55; }
+}
+
+@keyframes epFloat {
+  0%,100% { transform: translateY(0) translateX(0); opacity: .35; }
+  50% { transform: translateY(-12px) translateX(10px); opacity: 1; }
+}
+
+@keyframes epShimmer {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}

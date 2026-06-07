@@ -1,0 +1,55 @@
+module.exports = {
+  ROOM_JOIN: 'join_room',
+  ROOM_LEAVE: 'leave_room',
+  ROOM_STATE: 'room_state',
+  USER_JOINED: 'user_joined',
+  USER_LEFT: 'user_left',
+  ROOM_UPDATED: 'room_updated',
+
+  PLAY: 'play',
+  PAUSE: 'pause',
+  SEEK: 'seek',
+  SKIP: 'skip',
+  PLAY_SONG: 'play_song',
+  VOTE_SKIP: 'vote_skip',
+  SYNC_REQUEST: 'sync_request',
+  PLAYBACK_SYNC: 'playback_sync',
+  SONG_CHANGED: 'song_changed',
+  PLAYBACK_ENDED: 'playback_ended',
+  VOTE_UPDATE: 'vote_update',
+  SYNC_RESPONSE: 'sync_response',
+
+  SEND_MESSAGE: 'send_message',
+  NEW_MESSAGE: 'new_message',
+  MESSAGE_SENT: 'message_sent',
+  USER_TYPING: 'typing',
+  USER_STOP_TYPING: 'stop_typing',
+  MESSAGE_UPDATED: 'message_updated',
+  ADD_REACTION: 'add_reaction',
+
+  UPDATE_STATUS: 'update_status',
+  USER_STATUS_CHANGED: 'user_status_changed',
+  HOST_LEFT: 'host_left',
+  FORCE_LOGOUT: 'force_logout',
+  ERROR: 'error',
+
+  // Voice stage (2 mic positions)
+  VOICE_JOIN_SLOT: 'voice_join_slot',
+  VOICE_LEAVE_SLOT: 'voice_leave_slot',
+  VOICE_TOGGLE: 'voice_toggle',
+  VOICE_STATE: 'voice_state',
+  VOICE_ERROR: 'voice_error',
+  VOICE_SPEAKING_START: 'voice_speaking_start',
+  VOICE_SPEAKING_STOP: 'voice_speaking_stop',
+  VOICE_USER_JOINED: 'voice_user_joined',
+  VOICE_USER_LEFT: 'voice_user_left',
+
+  // WebRTC voice signaling
+  VOICE_SIGNAL_JOIN: 'voice_signal_join',
+  VOICE_SIGNAL_LEAVE: 'voice_signal_leave',
+  VOICE_WEBRTC_OFFER: 'voice_webrtc_offer',
+  VOICE_WEBRTC_ANSWER: 'voice_webrtc_answer',
+  VOICE_WEBRTC_ICE: 'voice_webrtc_ice',
+  VOICE_PEER_JOINED: 'voice_peer_joined',
+  VOICE_PEER_LEFT: 'voice_peer_left'
+};

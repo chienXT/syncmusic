@@ -1,0 +1,35 @@
+export const SocketEvents = {
+  ROOM_JOIN: 'join_room',
+  ROOM_LEAVE: 'leave_room',
+  ROOM_STATE: 'room_state',
+  USER_JOINED: 'user_joined',
+  USER_LEFT: 'user_left',
+  ROOM_UPDATED: 'room_updated',
+
+  PLAY: 'play',
+  PAUSE: 'pause',
+  SEEK: 'seek',
+  SKIP: 'skip',
+  PLAY_SONG: 'play_song',
+  VOTE_SKIP: 'vote_skip',
+  SYNC_REQUEST: 'sync_request',
+  PLAYBACK_SYNC: 'playback_sync',
+  SONG_CHANGED: 'song_changed',
+  PLAYBACK_ENDED: 'playback_ended',
+  VOTE_UPDATE: 'vote_update',
+  SYNC_RESPONSE: 'sync_response',
+
+  SEND_MESSAGE: 'send_message',
+  NEW_MESSAGE: 'new_message',
+  MESSAGE_SENT: 'message_sent',
+  USER_TYPING: 'typing',
+  USER_STOP_TYPING: 'stop_typing',
+  MESSAGE_UPDATED: 'message_updated',
+  ADD_REACTION: 'add_reaction',
+
+  UPDATE_STATUS: 'update_status',
+  USER_STATUS_CHANGED: 'user_status_changed',
+  HOST_LEFT: 'host_left',
+  FORCE_LOGOUT: 'force_logout',
+  ERROR: 'error'
+} as const;
