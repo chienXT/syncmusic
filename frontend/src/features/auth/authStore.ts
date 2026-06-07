@@ -46,6 +46,20 @@ const normalizeUser = (user: any) => {
   };
 };
 
+const getPersistedAuthToken = () => {
+  if (typeof window === 'undefined') return null;
+
+  try {
+    const raw = window.localStorage.getItem('auth-storage');
+    if (!raw) return null;
+
+    const parsed = JSON.parse(raw);
+    return parsed?.state?.token || null;
+  } catch {
+    return null;
+  }
+};
+
 export const useAuthStore = create<AuthState>()(
   persist(
     (set, get) => ({
@@ -129,11 +143,11 @@ export const useAuthStore = create<AuthState>()(
       },
       
       fetchUser: async () => {
-        const persistedToken = get().token;
-        let token = Cookies.get('token');
+        const persistedToken = get().token || getPersistedAuthToken();
+        let token: string | null = Cookies.get('token') || null;
 
         if (!token && persistedToken) {
-          token = persistedToken;
+          token = String(persistedToken);
           Cookies.set('token', token, { expires: 7, path: '/' });
         }
 

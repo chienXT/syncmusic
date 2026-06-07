@@ -11,8 +11,22 @@ const api = axios.create({
   withCredentials: true,
 });
 
+const getPersistedAuthToken = () => {
+  if (typeof window === 'undefined') return null;
+
+  try {
+    const raw = window.localStorage.getItem('auth-storage');
+    if (!raw) return null;
+
+    const parsed = JSON.parse(raw);
+    return parsed?.state?.token || null;
+  } catch {
+    return null;
+  }
+};
+
 api.interceptors.request.use((config) => {
-  const token = Cookies.get('token');
+  const token = Cookies.get('token') || getPersistedAuthToken();
   if (token) {
     config.headers = {
       ...(config.headers as any),
