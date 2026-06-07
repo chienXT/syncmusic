@@ -66,14 +66,19 @@ export default function Sidebar() {
     if (pathname?.startsWith('/admin')) setIsAdminExpanded(true);
   }, [pathname]);
 
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+
   useEffect(() => {
-    if (!room && !user?.currentRoom && !hasFetchedHosted) {
-      roomService
-        .getMyHostedRoom()
-        .then((res) => setHostedRoom(res.data.data.room ?? null))
-        .finally(() => setHasFetchedHosted(true));
+    if (!isAuthenticated || !user || room || user.currentRoom || hasFetchedHosted) {
+      return;
     }
-  }, [room, user?.currentRoom, hasFetchedHosted]);
+
+    roomService
+      .getMyHostedRoom()
+      .then((res) => setHostedRoom(res.data.data.room ?? null))
+      .catch(() => setHostedRoom(null))
+      .finally(() => setHasFetchedHosted(true));
+  }, [isAuthenticated, room, user, hasFetchedHosted]);
 
   const navItems = useMemo(
     () =>
