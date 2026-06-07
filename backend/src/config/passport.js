@@ -3,6 +3,19 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const User = require('../models/User');
 const { generateToken } = require('../utils/jwt');
 
+passport.serializeUser((user, done) => {
+  done(null, user.id || user._id);
+});
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id);
+    done(null, user || false);
+  } catch (error) {
+    done(error, null);
+  }
+});
+
 /**
  * Configure Google OAuth strategy
  */
