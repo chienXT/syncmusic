@@ -11,7 +11,9 @@ import {
   Home,
   ListMusic,
   Mic2,
+  Plus,
   Radio,
+  Search,
   Settings,
   ShieldCheck,
   Users,
@@ -31,12 +33,40 @@ const NAV_ITEMS = [
   { href: '/settings', label: 'Cài đặt', icon: Settings },
 ] as const;
 
+const MOBILE_TAB_ITEMS = [
+  { href: '/home', label: 'Home', icon: Home },
+  { href: '/explore', label: 'Khám phá', icon: Compass },
+  { href: '/rooms/create', label: 'Tạo', icon: Plus, isFab: true },
+  { href: '/playlists', label: 'Playlist', icon: ListMusic },
+  { href: '/profile', label: 'Cá nhân', icon: User },
+] as const;
+
 const ADMIN_CHILD_LINKS = [
   { href: '/admin', label: 'Tổng quan', icon: BarChart3 },
   { href: '/admin?tab=users', label: 'Người dùng', icon: Users },
   { href: '/admin?tab=rooms', label: 'Phòng nhạc', icon: Radio },
   { href: '/admin?tab=lyrics', label: 'Lyrics cache', icon: ListMusic },
 ] as const;
+
+function User(props: React.SVGProps<SVGSVGElement> & { size?: number }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={props.size || 24}
+      height={props.size || 24}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+      <circle cx="12" cy="7" r="4" />
+    </svg>
+  );
+}
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -93,30 +123,139 @@ export default function Sidebar() {
   const isActive = (href: string) =>
     href === pathname ||
     (href === '/home' && pathname === '/') ||
-    (href.startsWith('/room') && pathname?.startsWith('/room'));
+    (href.startsWith('/room') && pathname?.startsWith('/room')) ||
+    (href === '/profile' && pathname?.startsWith('/profile'));
+
+  const isMobileTabActive = (href: string) => {
+    if (href === '/rooms/create') return pathname === '/rooms/create';
+    if (href === '/profile') return pathname?.startsWith('/profile');
+    return isActive(href);
+  };
 
   const isAdminUser = mounted && Boolean(user && (user.role === 'admin' || user.username === 'admin'));
 
-  return (
-    <aside className="sl-sidebar" aria-label="Melodic navigation">
-      <Link href="/home" className="sl-brand">
-        <span className="sl-brand-icon">
-          <Mic2 size={16} />
-        </span>
-        <span className="sl-brand-name">
-          Music<em>Live</em>
-        </span>
-      </Link>
+  const displayName = mounted ? user?.username || 'Guest' : 'Guest';
 
-      <nav className="sl-nav" aria-label="Điều hướng ứng dụng">
-        {navItems.map((item) => {
+  return (
+    <>
+      {/* ── Desktop Sidebar ── */}
+      <aside className="sl-sidebar" aria-label="Melodic navigation">
+        <Link href="/home" className="sl-brand">
+          <span className="sl-brand-icon">
+            <Mic2 size={16} />
+          </span>
+          <span className="sl-brand-name">
+            Music<em>Live</em>
+          </span>
+        </Link>
+
+        <nav className="sl-nav" aria-label="Điều hướng ứng dụng">
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            const active = isActive(item.href);
+            return (
+              <Link
+                key={item.href + item.label}
+                href={item.href}
+                className={`sl-nav-link${active ? ' active' : ''}`}
+                aria-current={active ? 'page' : undefined}
+                onClick={() => {
+                  if (
+                    pathname?.startsWith('/room') &&
+                    !item.href.startsWith('/room') &&
+                    currentRoomId
+                  ) {
+                    setKeepAlive(true);
+                    setMinimized(true);
+                  }
+                }}
+              >
+                <span className="sl-nav-icon">
+                  <Icon size={16} />
+                </span>
+                <span className="sl-nav-label">{item.label}</span>
+                {active && <span className="sl-nav-pip" aria-hidden="true" />}
+              </Link>
+            );
+          })}
+        </nav>
+
+        {isAdminUser && (
+          <div className="sl-admin-group">
+            <div className="sl-admin-head">
+              <Link
+                id="sidebar-admin-link"
+                href="/admin"
+                className={`sl-admin-link${pathname?.startsWith('/admin') ? ' active' : ''}`}
+                aria-current={pathname?.startsWith('/admin') ? 'page' : undefined}
+              >
+                <span className="sl-nav-icon">
+                  <ShieldCheck size={16} />
+                </span>
+                <span className="sl-nav-label">Quản lý Admin</span>
+              </Link>
+              <button
+                type="button"
+                className={`sl-admin-toggle${isAdminExpanded ? ' expanded' : ''}`}
+                onClick={() => setIsAdminExpanded((value) => !value)}
+                aria-label={isAdminExpanded ? 'Thu gọn quản lý admin' : 'Mở rộng quản lý admin'}
+                aria-expanded={isAdminExpanded}
+              >
+                <ChevronDown size={14} />
+              </button>
+            </div>
+
+            {isAdminExpanded && (
+              <div className="sl-admin-subnav" aria-label="Điều hướng con quản lý admin">
+                {ADMIN_CHILD_LINKS.map((item) => {
+                  const Icon = item.icon;
+                  const activeTab = searchParams.get('tab') || 'overview';
+                  const targetTab = item.href.includes('tab=') ? item.href.split('tab=')[1] : 'overview';
+                  const active = pathname === '/admin' && activeTab === targetTab;
+
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className={`sl-admin-sub-link${active ? ' active' : ''}`}
+                      aria-current={active ? 'page' : undefined}
+                    >
+                      <Icon size={13} />
+                      <span>{item.label}</span>
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        )}
+      </aside>
+
+      {/* ── Mobile Bottom Tab Bar ── */}
+      <nav className="mb-tab-bar" aria-label="Điều hướng mobile">
+        {MOBILE_TAB_ITEMS.map((item) => {
           const Icon = item.icon;
-          const active = isActive(item.href);
+          const active = isMobileTabActive(item.href);
+          const isFab = 'isFab' in item && item.isFab;
+
+          if (isFab) {
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="mb-tab-item mb-tab-fab"
+                aria-label={item.label}
+              >
+                <Icon size={24} strokeWidth={2.5} />
+              </Link>
+            );
+          }
+
           return (
             <Link
-              key={item.href + item.label}
+              key={item.href}
               href={item.href}
-              className={`sl-nav-link${active ? ' active' : ''}`}
+              className={`mb-tab-item${active ? ' active' : ''}`}
               aria-current={active ? 'page' : undefined}
               onClick={() => {
                 if (
@@ -129,65 +268,15 @@ export default function Sidebar() {
                 }
               }}
             >
-              <span className="sl-nav-icon">
-                <Icon size={16} />
+              {active && <span className="mb-tab-indicator" aria-hidden="true" />}
+              <span className="mb-tab-icon">
+                <Icon size={22} />
               </span>
-              <span className="sl-nav-label">{item.label}</span>
-              {active && <span className="sl-nav-pip" aria-hidden="true" />}
+              <span className="mb-tab-label">{item.label}</span>
             </Link>
           );
         })}
       </nav>
-
-      {isAdminUser && (
-        <div className="sl-admin-group">
-          <div className="sl-admin-head">
-            <Link
-              id="sidebar-admin-link"
-              href="/admin"
-              className={`sl-admin-link${pathname?.startsWith('/admin') ? ' active' : ''}`}
-              aria-current={pathname?.startsWith('/admin') ? 'page' : undefined}
-            >
-              <span className="sl-nav-icon">
-                <ShieldCheck size={16} />
-              </span>
-              <span className="sl-nav-label">Quản lý Admin</span>
-            </Link>
-            <button
-              type="button"
-              className={`sl-admin-toggle${isAdminExpanded ? ' expanded' : ''}`}
-              onClick={() => setIsAdminExpanded((value) => !value)}
-              aria-label={isAdminExpanded ? 'Thu gọn quản lý admin' : 'Mở rộng quản lý admin'}
-              aria-expanded={isAdminExpanded}
-            >
-              <ChevronDown size={14} />
-            </button>
-          </div>
-
-          {isAdminExpanded && (
-            <div className="sl-admin-subnav" aria-label="Điều hướng con quản lý admin">
-              {ADMIN_CHILD_LINKS.map((item) => {
-                const Icon = item.icon;
-                const activeTab = searchParams.get('tab') || 'overview';
-                const targetTab = item.href.includes('tab=') ? item.href.split('tab=')[1] : 'overview';
-                const active = pathname === '/admin' && activeTab === targetTab;
-
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className={`sl-admin-sub-link${active ? ' active' : ''}`}
-                    aria-current={active ? 'page' : undefined}
-                  >
-                    <Icon size={13} />
-                    <span>{item.label}</span>
-                  </Link>
-                );
-              })}
-            </div>
-          )}
-        </div>
-      )}
-    </aside>
+    </>
   );
 }

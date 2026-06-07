@@ -1,0 +1,1525 @@
+/* ═══════════════════════════════════════════════════════════════
+   MOBILE-FIRST UI — SyncMusic
+   Mobile-first styles for all main pages
+   Breakpoint: ≤768px (mobile), 769-1024 (tablet), ≥1025 (desktop)
+═══════════════════════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════════════════════════
+   1. MOBILE APP SHELL
+   Convert sidebar layout → bottom tab bar layout
+═══════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  /* ── Reset app shell for mobile ── */
+  .app-shell {
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: none;
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  .app-main {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .app-content {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+    scroll-behavior: smooth;
+  }
+
+  /* ── Hide desktop sidebar on mobile ── */
+  .sl-sidebar {
+    display: none !important;
+  }
+
+  /* ── Hide desktop header on mobile ── */
+  .hd-header {
+    display: none !important;
+  }
+
+  /* ── Compact global mini player ── */
+  .global-mini-player {
+    left: 8px !important;
+    right: 8px !important;
+    bottom: calc(64px + env(safe-area-inset-bottom, 0px) + 8px) !important;
+    padding: 8px 10px !important;
+    border-radius: 16px !important;
+    grid-template-columns: 1fr auto !important;
+    gap: 8px !important;
+  }
+
+  .gmp-track-info {
+    gap: 8px !important;
+  }
+
+  .gmp-cover {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 12px !important;
+  }
+
+  .gmp-song-meta strong {
+    font-size: 12px !important;
+  }
+
+  .gmp-song-meta span {
+    font-size: 10px !important;
+  }
+
+  .gmp-actions {
+    display: none !important;
+  }
+
+  .gmp-center {
+    display: none !important;
+  }
+
+  .gmp-right {
+    gap: 4px !important;
+  }
+
+  .gmp-volume {
+    display: none !important;
+  }
+
+  .gmp-icon-btn {
+    width: 30px !important;
+    height: 30px !important;
+  }
+
+  .gmp-play-btn {
+    width: 36px !important;
+    height: 36px !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   2. MOBILE BOTTOM TAB BAR
+   Fixed bottom navigation with 5 tabs
+═══════════════════════════════════════════════════════════════ */
+.mb-tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-around;
+  height: calc(64px + env(safe-area-inset-bottom, 0px));
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  background: linear-gradient(180deg, rgba(10, 10, 14, 0.92), rgba(6, 6, 9, 0.98));
+  backdrop-filter: blur(20px) saturate(1.4);
+  border-top: 1px solid rgba(245, 166, 35, 0.1);
+  will-change: transform;
+}
+
+.mb-tab-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  flex: 1;
+  min-width: 0;
+  padding: 8px 4px;
+  border: none;
+  background: none;
+  color: #3d3a35;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 180ms ease, transform 180ms ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.mb-tab-item:active {
+  transform: scale(0.92);
+}
+
+.mb-tab-item.active {
+  color: #f5a623;
+}
+
+.mb-tab-icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 10px;
+  transition: background 200ms ease, box-shadow 200ms ease;
+}
+
+.mb-tab-item.active .mb-tab-icon {
+  background: rgba(245, 166, 35, 0.12);
+  box-shadow: 0 0 20px rgba(245, 166, 35, 0.15);
+}
+
+.mb-tab-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Active indicator dot ── */
+.mb-tab-indicator {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  background: #f5a623;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(245, 166, 35, 0.6);
+  animation: tabPulse 2s ease-in-out infinite;
+}
+
+@keyframes tabPulse {
+  0%, 100% { opacity: 1; transform: translateX(-50%) scale(1); }
+  50% { opacity: 0.6; transform: translateX(-50%) scale(0.7); }
+}
+
+/* ── Notification badge ── */
+.mb-tab-badge {
+  position: absolute;
+  top: 4px;
+  right: calc(50% - 18px);
+  min-width: 14px;
+  height: 14px;
+  padding: 0 3px;
+  background: #fb7185;
+  color: #fff;
+  font-size: 8px;
+  font-weight: 800;
+  border-radius: 99px;
+  display: grid;
+  place-items: center;
+  border: 1.5px solid rgba(6, 6, 9, 0.98);
+}
+
+/* ── Center FAB button (Create Room) ── */
+.mb-tab-fab {
+  position: relative;
+  top: -16px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f5a623, #ffd37a);
+  color: #050507;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 8px 24px rgba(245, 166, 35, 0.35), 0 0 0 3px rgba(5, 5, 7, 0.8);
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.mb-tab-fab:active {
+  transform: scale(0.9);
+  box-shadow: 0 4px 16px rgba(245, 166, 35, 0.25), 0 0 0 2px rgba(5, 5, 7, 0.8);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   3. MOBILE HEADER
+   Compact header with search, notifications, profile
+═══════════════════════════════════════════════════════════════ */
+.mb-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 52px;
+  padding: 0 16px;
+  background: rgba(5, 5, 7, 0.92);
+  backdrop-filter: blur(16px) saturate(1.3);
+  border-bottom: 1px solid rgba(245, 166, 35, 0.07);
+  transition: transform 250ms ease, opacity 250ms ease;
+}
+
+.mb-header.header-hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.mb-header-title {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mb-header-brand {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #ede8df;
+  letter-spacing: -0.3px;
+  white-space: nowrap;
+}
+
+.mb-header-brand em {
+  color: #f5a623;
+  font-style: normal;
+}
+
+.mb-header-page {
+  font-size: 14px;
+  font-weight: 600;
+  color: #7d7870;
+  white-space: nowrap;
+}
+
+.mb-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.mb-header-btn {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: none;
+  background: rgba(255, 255, 255, 0.04);
+  color: #7d7870;
+  cursor: pointer;
+  transition: background 160ms ease, color 160ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mb-header-btn:active {
+  background: rgba(245, 166, 35, 0.1);
+  color: #f5a623;
+}
+
+.mb-header-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f5a623, #c4811a);
+  color: #050507;
+  font-size: 11px;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+  border: 2px solid rgba(245, 166, 35, 0.2);
+}
+
+/* ── Search bar ── */
+.mb-search-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(245, 166, 35, 0.08);
+  border-radius: 10px;
+  flex: 1;
+  min-width: 0;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+
+.mb-search-bar:focus-within {
+  border-color: rgba(245, 166, 35, 0.25);
+  background: rgba(245, 166, 35, 0.04);
+}
+
+.mb-search-bar input {
+  flex: 1;
+  min-width: 0;
+  background: none;
+  border: none;
+  outline: none;
+  color: #ede8df;
+  font-size: 13px;
+  font-family: 'DM Sans', system-ui, sans-serif;
+}
+
+.mb-search-bar input::placeholder {
+  color: #3d3a35;
+}
+
+.mb-search-bar svg {
+  color: #3d3a35;
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   4. MOBILE SONG CARD
+   Horizontal layout, touch-friendly
+═══════════════════════════════════════════════════════════════ */
+.mb-song-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  border-radius: 14px;
+  background: rgba(16, 16, 20, 0.6);
+  border: 1px solid rgba(245, 166, 35, 0.06);
+  transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.mb-song-card:active {
+  background: rgba(245, 166, 35, 0.06);
+  border-color: rgba(245, 166, 35, 0.14);
+  transform: scale(0.98);
+}
+
+.mb-song-card.is-playing {
+  background: rgba(245, 166, 35, 0.08);
+  border-color: rgba(245, 166, 35, 0.18);
+}
+
+.mb-song-cover {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, rgba(245, 166, 35, 0.12), rgba(255, 255, 255, 0.03));
+}
+
+.mb-song-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mb-song-cover-placeholder {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  color: #f5a623;
+  font-size: 18px;
+}
+
+.mb-song-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.mb-song-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ede8df;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+}
+
+.mb-song-artist {
+  font-size: 12px;
+  color: #7d7870;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 2px;
+}
+
+.mb-song-duration {
+  font-size: 11px;
+  color: #3d3a35;
+  font-family: 'JetBrains Mono', monospace;
+  flex-shrink: 0;
+}
+
+.mb-song-action {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.04);
+  color: #7d7870;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 160ms ease, color 160ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mb-song-action:active {
+  background: rgba(245, 166, 35, 0.12);
+  color: #f5a623;
+}
+
+/* ── Playing indicator ── */
+.mb-song-playing-indicator {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.mb-song-playing-indicator span {
+  width: 3px;
+  background: #f5a623;
+  border-radius: 2px;
+  animation: soundBar 0.8s ease-in-out infinite alternate;
+}
+
+.mb-song-playing-indicator span:nth-child(1) { height: 6px; animation-delay: 0s; }
+.mb-song-playing-indicator span:nth-child(2) { height: 12px; animation-delay: 0.15s; }
+.mb-song-playing-indicator span:nth-child(3) { height: 8px; animation-delay: 0.3s; }
+
+@keyframes soundBar {
+  to { height: 16px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   5. MOBILE PLAYLIST CARD
+   Vertical card, 2-column grid
+═══════════════════════════════════════════════════════════════ */
+.mb-playlist-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  padding: 0 16px;
+}
+
+.mb-playlist-card {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  background: linear-gradient(160deg, rgba(18, 18, 22, 0.95), rgba(12, 12, 16, 0.88));
+  border: 1px solid rgba(245, 166, 35, 0.07);
+  cursor: pointer;
+  transition: transform 180ms ease, border-color 180ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mb-playlist-card:active {
+  transform: scale(0.97);
+  border-color: rgba(245, 166, 35, 0.18);
+}
+
+.mb-playlist-cover {
+  position: relative;
+  aspect-ratio: 1;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+
+.mb-playlist-cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 30%, rgba(5, 5, 7, 0.85));
+}
+
+.mb-playlist-icon {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  backdrop-filter: blur(8px);
+}
+
+.mb-playlist-body {
+  padding: 12px;
+}
+
+.mb-playlist-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #ede8df;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mb-playlist-count {
+  font-size: 11px;
+  color: #7d7870;
+  margin-top: 3px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   6. MOBILE ROOM CARD
+   Compact card with live indicator
+═══════════════════════════════════════════════════════════════ */
+.mb-room-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 16px;
+  background: linear-gradient(160deg, rgba(18, 18, 22, 0.95), rgba(12, 12, 16, 0.88));
+  border: 1px solid rgba(245, 166, 35, 0.07);
+  cursor: pointer;
+  transition: transform 180ms ease, border-color 180ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mb-room-card:active {
+  transform: scale(0.97);
+  border-color: rgba(245, 166, 35, 0.18);
+}
+
+.mb-room-cover {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  border-radius: 14px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, rgba(245, 166, 35, 0.15), rgba(255, 255, 255, 0.03));
+}
+
+.mb-room-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mb-room-live-badge {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 9px;
+  font-weight: 700;
+  color: #f5a623;
+  background: rgba(5, 5, 7, 0.8);
+  border: 1px solid rgba(245, 166, 35, 0.3);
+  border-radius: 99px;
+  padding: 2px 7px;
+  backdrop-filter: blur(6px);
+}
+
+.mb-room-live-badge i {
+  width: 5px;
+  height: 5px;
+  background: #f5a623;
+  border-radius: 50%;
+  animation: livePulse 1.4s ease-in-out infinite;
+}
+
+@keyframes livePulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.mb-room-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.mb-room-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ede8df;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mb-room-host {
+  font-size: 11px;
+  color: #7d7870;
+  margin-top: 2px;
+}
+
+.mb-room-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.mb-room-listeners {
+  font-size: 11px;
+  color: #3d3a35;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.mb-room-genre {
+  font-size: 10px;
+  color: #f5a623;
+  background: rgba(245, 166, 35, 0.08);
+  border: 1px solid rgba(245, 166, 35, 0.15);
+  border-radius: 99px;
+  padding: 1px 7px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   7. MOBILE BOTTOM SHEET PLAYER
+   Mini bar → expanded full screen
+═══════════════════════════════════════════════════════════════ */
+.mb-player-sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+  z-index: 180;
+  background: linear-gradient(180deg, rgba(10, 10, 14, 0.95), rgba(6, 6, 9, 0.98));
+  backdrop-filter: blur(20px) saturate(1.3);
+  border-top: 1px solid rgba(245, 166, 35, 0.1);
+  border-radius: 20px 20px 0 0;
+  overflow: hidden;
+  transition: transform 300ms cubic-bezier(0.32, 0.72, 0, 1);
+  will-change: transform;
+}
+
+/* ── Mini mode ── */
+.mb-player-mini {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  height: 56px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mb-player-mini-cover {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, rgba(245, 166, 35, 0.15), rgba(255, 255, 255, 0.03));
+}
+
+.mb-player-mini-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mb-player-mini-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.mb-player-mini-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #ede8df;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mb-player-mini-artist {
+  font-size: 11px;
+  color: #7d7870;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mb-player-mini-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.mb-player-mini-btn {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: none;
+  color: #ede8df;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mb-player-mini-btn:active {
+  background: rgba(245, 166, 35, 0.1);
+}
+
+.mb-player-mini-btn.play {
+  background: #f5a623;
+  color: #050507;
+  box-shadow: 0 4px 16px rgba(245, 166, 35, 0.3);
+}
+
+/* ── Progress bar (mini) ── */
+.mb-player-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.mb-player-progress-fill {
+  height: 100%;
+  background: #f5a623;
+  transition: width 200ms linear;
+}
+
+/* ── Expanded mode ── */
+.mb-player-expanded {
+  position: fixed;
+  inset: 0;
+  z-index: 250;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, rgba(10, 10, 14, 0.98), rgba(5, 5, 7, 0.99));
+  backdrop-filter: blur(30px);
+  overflow: hidden;
+  animation: slideUp 350ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.mb-player-expanded-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  flex-shrink: 0;
+}
+
+.mb-player-expanded-close {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.06);
+  color: #7d7870;
+  cursor: pointer;
+}
+
+.mb-player-expanded-artwork {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  min-height: 0;
+}
+
+.mb-player-expanded-artwork img {
+  width: min(280px, 70vw);
+  height: min(280px, 70vw);
+  border-radius: 24px;
+  object-fit: cover;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(245, 166, 35, 0.1);
+}
+
+.mb-player-expanded-info {
+  text-align: center;
+  padding: 0 24px;
+  flex-shrink: 0;
+}
+
+.mb-player-expanded-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ede8df;
+}
+
+.mb-player-expanded-artist {
+  font-size: 14px;
+  color: #7d7870;
+  margin-top: 4px;
+}
+
+.mb-player-expanded-progress {
+  padding: 20px 24px 0;
+  flex-shrink: 0;
+}
+
+.mb-player-expanded-progress-bar {
+  position: relative;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.mb-player-expanded-progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: #f5a623;
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+.mb-player-expanded-progress-times {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-size: 11px;
+  color: #3d3a35;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.mb-player-expanded-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 24px;
+  flex-shrink: 0;
+}
+
+.mb-player-expanded-btn {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: #ede8df;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mb-player-expanded-btn:active {
+  background: rgba(245, 166, 35, 0.12);
+}
+
+.mb-player-expanded-btn.play {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, #f5a623, #ffd37a);
+  color: #050507;
+  border: none;
+  box-shadow: 0 8px 24px rgba(245, 166, 35, 0.35);
+}
+
+.mb-player-expanded-btn.play:active {
+  transform: scale(0.95);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   8. MOBILE SECTION HEADERS
+   Compact section titles with action buttons
+═══════════════════════════════════════════════════════════════ */
+.mb-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 16px 12px;
+  gap: 12px;
+}
+
+.mb-section-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #ede8df;
+  letter-spacing: -0.3px;
+  margin: 0;
+}
+
+.mb-section-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #f5a623;
+  background: rgba(245, 166, 35, 0.08);
+  border: 1px solid rgba(245, 166, 35, 0.15);
+  border-radius: 99px;
+  padding: 5px 12px;
+  text-decoration: none;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mb-section-action:active {
+  background: rgba(245, 166, 35, 0.15);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   9. MOBILE HORIZONTAL SCROLL
+   For song lists, mood chips, etc.
+═══════════════════════════════════════════════════════════════ */
+.mb-h-scroll {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0 16px 12px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.mb-h-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.mb-h-scroll > * {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+
+/* ── Mood chips ── */
+.mb-mood-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 99px;
+  border: 1px solid rgba(245, 166, 35, 0.12);
+  background: rgba(16, 16, 20, 0.6);
+  color: #7d7870;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 160ms ease, border-color 160ms ease, color 160ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mb-mood-chip:active {
+  background: rgba(245, 166, 35, 0.1);
+  border-color: rgba(245, 166, 35, 0.25);
+  color: #f5a623;
+}
+
+.mb-mood-chip.active {
+  background: rgba(245, 166, 35, 0.12);
+  border-color: rgba(245, 166, 35, 0.3);
+  color: #f5a623;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   10. MOBILE TOUCH INTERACTIONS
+   Tap feedback, pull areas, safe zones
+═══════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  /* ── Minimum touch target 44px ── */
+  button,
+  a,
+  [role="button"],
+  .mb-tab-item,
+  .mb-song-action,
+  .mb-header-btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* ── Remove hover effects on touch ── */
+  @media (hover: none) {
+    .mb-song-card:hover,
+    .mb-playlist-card:hover,
+    .mb-room-card:hover {
+      transform: none;
+    }
+  }
+
+  /* ── Safe area padding ── */
+  .mb-tab-bar {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .mb-player-sheet {
+    bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* ── Prevent text selection on interactive elements ── */
+  .mb-tab-item,
+  .mb-song-card,
+  .mb-playlist-card,
+  .mb-room-card,
+  .mb-mood-chip {
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  /* ── Smooth scroll for the whole page ── */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* ── Prevent overscroll bounce on iOS ── */
+  body {
+    overscroll-behavior-y: contain;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   11. MOBILE LOADING STATES
+   Skeleton screens, spinners
+═══════════════════════════════════════════════════════════════ */
+.mb-skeleton {
+  background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0.03) 75%);
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+@keyframes skeletonShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.mb-skeleton-card {
+  height: 72px;
+  margin: 8px 16px;
+  border-radius: 14px;
+}
+
+.mb-skeleton-title {
+  height: 20px;
+  width: 60%;
+  margin: 16px 16px 8px;
+}
+
+.mb-skeleton-text {
+  height: 14px;
+  width: 80%;
+  margin: 4px 16px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   12. MOBILE EMPTY STATES
+   Friendly empty state illustrations
+═══════════════════════════════════════════════════════════════ */
+.mb-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 32px;
+  text-align: center;
+}
+
+.mb-empty-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(245, 166, 35, 0.08);
+  display: grid;
+  place-items: center;
+  margin-bottom: 16px;
+  color: #f5a623;
+}
+
+.mb-empty-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #ede8df;
+  margin-bottom: 6px;
+}
+
+.mb-empty-desc {
+  font-size: 13px;
+  color: #7d7870;
+  line-height: 1.5;
+  max-width: 280px;
+}
+
+.mb-empty-action {
+  margin-top: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  background: #f5a623;
+  color: #050507;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 99px;
+  text-decoration: none;
+  box-shadow: 0 4px 16px rgba(245, 166, 35, 0.25);
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   13. MOBILE MODAL / BOTTOM SHEET OVERLAY
+   For dialogs, confirmations, menus
+═══════════════════════════════════════════════════════════════ */
+.mb-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  animation: fadeIn 200ms ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.mb-bottom-sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 310;
+  background: linear-gradient(180deg, rgba(14, 14, 18, 0.98), rgba(8, 8, 12, 0.99));
+  backdrop-filter: blur(20px);
+  border-radius: 24px 24px 0 0;
+  padding: 24px 20px calc(24px + env(safe-area-inset-bottom, 0px));
+  animation: slideUp 300ms cubic-bezier(0.32, 0.72, 0, 1);
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.mb-bottom-sheet-handle {
+  width: 36px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 99px;
+  margin: 0 auto 20px;
+}
+
+.mb-bottom-sheet-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ede8df;
+  margin-bottom: 16px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   14. MOBILE FORM ELEMENTS
+   Inputs, buttons, toggles
+═══════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .mb-input {
+    width: 100%;
+    height: 48px;
+    padding: 0 16px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(245, 166, 35, 0.1);
+    border-radius: 12px;
+    color: #ede8df;
+    font-size: 14px;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    outline: none;
+    transition: border-color 160ms ease;
+    -webkit-appearance: none;
+  }
+
+  .mb-input:focus {
+    border-color: rgba(245, 166, 35, 0.3);
+  }
+
+  .mb-input::placeholder {
+    color: #3d3a35;
+  }
+
+  .mb-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 48px;
+    padding: 0 24px;
+    border-radius: 12px;
+    border: none;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 160ms ease, box-shadow 160ms ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mb-btn:active {
+    transform: scale(0.97);
+  }
+
+  .mb-btn-primary {
+    background: linear-gradient(135deg, #f5a623, #ffd37a);
+    color: #050507;
+    box-shadow: 0 4px 16px rgba(245, 166, 35, 0.25);
+  }
+
+  .mb-btn-secondary {
+    background: rgba(255, 255, 255, 0.06);
+    color: #ede8df;
+    border: 1px solid rgba(245, 166, 35, 0.12);
+  }
+
+  .mb-btn-danger {
+    background: rgba(251, 113, 133, 0.12);
+    color: #fb7185;
+    border: 1px solid rgba(251, 113, 133, 0.2);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   15. MOBILE ROOM PAGE OVERRIDES
+   Touch-optimized player controls
+═══════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .room-page {
+    padding: 0 !important;
+  }
+
+  .rp-hero {
+    min-height: 180px !important;
+    padding: 24px 16px !important;
+  }
+
+  .rp-room-name {
+    font-size: 20px !important;
+  }
+
+  .rp-layout {
+    padding: 0 12px !important;
+  }
+
+  .rp-player {
+    border-radius: 20px !important;
+    margin: 0 -4px !important;
+  }
+
+  .rp-album-stage {
+    padding: 20px 0 !important;
+  }
+
+  .rp-album {
+    width: min(220px, 60vw) !important;
+    height: min(220px, 60vw) !important;
+    border-radius: 20px !important;
+  }
+
+  .rp-song-title {
+    font-size: 18px !important;
+  }
+
+  .rp-controls {
+    gap: 12px !important;
+    flex-wrap: wrap !important;
+  }
+
+  .rp-ctrl-btn {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+  }
+
+  .rp-play-btn {
+    width: 56px !important;
+    height: 56px !important;
+    min-width: 56px !important;
+    min-height: 56px !important;
+  }
+
+  .rp-cinema-progress {
+    padding: 0 8px !important;
+  }
+
+  .rp-panel-row {
+    padding: 0 !important;
+  }
+
+  .rp-panel {
+    border-radius: 16px !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   16. MOBILE EXPLORE PAGE
+═══════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .ep-hero {
+    padding: 24px 16px !important;
+    margin: 12px 12px 0 !important;
+    border-radius: 20px !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  .ep-hero-title {
+    font-size: 24px !important;
+  }
+
+  .ep-hero-desc {
+    font-size: 13px !important;
+  }
+
+  .ep-hero-deco {
+    display: none !important;
+  }
+
+  .ep-hero-summary {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 8px !important;
+  }
+
+  .ep-summary-card {
+    padding: 10px !important;
+  }
+
+  .ep-room-grid {
+    grid-template-columns: 1fr !important;
+    padding: 0 12px !important;
+    gap: 12px !important;
+  }
+
+  .ep-section-head {
+    padding: 0 16px !important;
+  }
+
+  .ep-section-title {
+    font-size: 18px !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   17. MOBILE HOME PAGE
+═══════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .dashboard-container {
+    width: 100% !important;
+    padding: 16px 0 !important;
+  }
+
+  .dashboard-container .welcome-banner {
+    margin: 0 12px !important;
+    border-radius: 20px !important;
+    padding: 20px !important;
+  }
+
+  .dashboard-container .stat-card {
+    border-radius: 16px !important;
+  }
+
+  .dashboard-container .room-card {
+    border-radius: 16px !important;
+    margin: 0 12px !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   18. MOBILE PLAYLISTS PAGE
+═══════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .pl-container {
+    padding: 16px 12px !important;
+  }
+
+  .pl-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+  }
+
+  .pl-card {
+    border-radius: 16px !important;
+  }
+
+  .pl-card-cover {
+    aspect-ratio: 1 !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   19. MOBILE PROFILE PAGE
+═══════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .profile-header {
+    padding: 24px 16px !important;
+    border-radius: 20px !important;
+    margin: 12px !important;
+  }
+
+  .profile-avatar {
+    width: 72px !important;
+    height: 72px !important;
+  }
+
+  .profile-name {
+    font-size: 20px !important;
+  }
+
+  .profile-stats {
+    gap: 16px !important;
+  }
+
+  .profile-content {
+    padding: 0 12px !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   20. UTILITY CLASSES
+═══════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .mb-hide {
+    display: none !important;
+  }
+
+  .mb-show {
+    display: block !important;
+  }
+
+  .mb-flex {
+    display: flex !important;
+  }
+
+  .mb-full-width {
+    width: 100% !important;
+  }
+
+  .mb-text-center {
+    text-align: center !important;
+  }
+
+  .mb-no-padding {
+    padding: 0 !important;
+  }
+
+  .mb-padding {
+    padding: 16px !important;
+  }
+
+  .mb-margin-top {
+    margin-top: 12px !important;
+  }
+
+  .mb-margin-bottom {
+    margin-bottom: 12px !important;
+  }
+}
