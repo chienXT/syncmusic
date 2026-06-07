@@ -136,13 +136,14 @@ export const useRoomSocket = (roomId: string, handlers: RoomSocketHandlers = {})
       setRoomMinimized(false);
       await leaveRoom(currentRoom._id);
       emitLeaveRoom(socket);
-      router.push('/home');
     }
-  }, [currentRoom?._id, leaveRoom, router, setKeepRoomAlive, setRoomMinimized, socket]);
+  }, [currentRoom?._id, leaveRoom, setKeepRoomAlive, setRoomMinimized, socket]);
 
   useEffect(() => {
     if (!isAuthenticated || !user) {
-      router.push('/login');
+      if (useAuthStore.getState().isInitialized) {
+        router.replace('/login');
+      }
     }
   }, [isAuthenticated, router, user]);
 
