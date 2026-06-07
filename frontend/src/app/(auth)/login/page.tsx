@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useAuthStore } from '@/store/authStore';
@@ -10,7 +10,7 @@ import styles from '../auth-shared.module.css';
 export default function LoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { login, isLoading } = useAuthStore();
+  const { login, isLoading, isAuthenticated, isInitialized } = useAuthStore();
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [error, setError] = useState(
     searchParams.get('reason') === 'another_session'
@@ -18,6 +18,12 @@ export default function LoginPage() {
       : ''
   );
   const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    if (isInitialized && isAuthenticated) {
+      router.replace('/home');
+    }
+  }, [isAuthenticated, isInitialized, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

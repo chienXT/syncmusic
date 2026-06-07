@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuthStore } from '@/store/authStore';
@@ -9,11 +9,17 @@ import styles from '../auth-shared.module.css';
 
 export default function RegisterPage() {
   const router = useRouter();
-  const { register, isLoading } = useAuthStore();
+  const { register, isLoading, isAuthenticated, isInitialized } = useAuthStore();
   const [formData, setFormData] = useState({ username: '', email: '', password: '', confirmPassword: '' });
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  useEffect(() => {
+    if (isInitialized && isAuthenticated) {
+      router.replace('/home');
+    }
+  }, [isAuthenticated, isInitialized, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
