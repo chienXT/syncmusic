@@ -4,6 +4,12 @@
    Breakpoint: ≤768px (mobile), 769-1024 (tablet), ≥1025 (desktop)
 ═══════════════════════════════════════════════════════════════ */
 
+/* Desktop/tablet default: mobile-only UI must stay hidden */
+.mb-header,
+.mb-tab-bar {
+  display: none;
+}
+
 /* ═══════════════════════════════════════════════════════════════
    1. MOBILE APP SHELL
    Convert sidebar layout → bottom tab bar layout
@@ -33,6 +39,12 @@
     -webkit-overflow-scrolling: touch;
     padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
     scroll-behavior: smooth;
+  }
+
+  /* ── Show mobile-only UI ── */
+  .mb-header,
+  .mb-tab-bar {
+    display: flex;
   }
 
   /* ── Hide desktop sidebar on mobile ── */
