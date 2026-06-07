@@ -4,6 +4,7 @@ import type {
   ChatMessagePayload,
   PlaybackState,
   SocketServerToClientEvents,
+  SocketClientToServerEvents,
 } from '@/types/socket';
 
 export type RoomSocketHandlers = {
@@ -28,67 +29,69 @@ export type RoomSocketHandlers = {
   onError?: (payload: SocketServerToClientEvents['error']) => void;
 };
 
-export const registerRoomListeners = (socket: Socket, handlers: RoomSocketHandlers) => {
+export const registerRoomListeners = (socket: Socket<SocketServerToClientEvents, SocketClientToServerEvents>, handlers: RoomSocketHandlers) => {
+  const s = socket as any;
   if (handlers.onRoomState) {
-    socket.on(socketServerEvents.ROOM_STATE, handlers.onRoomState);
+    s.on(socketServerEvents.ROOM_STATE, handlers.onRoomState);
   }
   if (handlers.onPlaybackSync) {
-    socket.on(socketServerEvents.PLAYBACK_SYNC, handlers.onPlaybackSync);
+    s.on(socketServerEvents.PLAYBACK_SYNC, handlers.onPlaybackSync);
   }
   if (handlers.onSongChanged) {
-    socket.on(socketServerEvents.SONG_CHANGED, handlers.onSongChanged);
+    s.on(socketServerEvents.SONG_CHANGED, handlers.onSongChanged);
   }
   if (handlers.onSyncResponse) {
-    socket.on(socketServerEvents.SYNC_RESPONSE, handlers.onSyncResponse);
+    s.on(socketServerEvents.SYNC_RESPONSE, handlers.onSyncResponse);
   }
   if (handlers.onRoomUpdated) {
-    socket.on(socketServerEvents.ROOM_UPDATED, handlers.onRoomUpdated);
+    s.on(socketServerEvents.ROOM_UPDATED, handlers.onRoomUpdated);
   }
   if (handlers.onQueueUpdated) {
-    socket.on(socketServerEvents.QUEUE_UPDATED, handlers.onQueueUpdated);
+    s.on(socketServerEvents.QUEUE_UPDATED, handlers.onQueueUpdated);
   }
   if (handlers.onNewMessage) {
-    socket.on(socketServerEvents.NEW_MESSAGE, handlers.onNewMessage);
+    s.on(socketServerEvents.NEW_MESSAGE, handlers.onNewMessage);
   }
   if (handlers.onMessageSent) {
-    socket.on(socketServerEvents.MESSAGE_SENT, handlers.onMessageSent);
+    s.on(socketServerEvents.MESSAGE_SENT, handlers.onMessageSent);
   }
   if (handlers.onUserJoined) {
-    socket.on(socketServerEvents.USER_JOINED, handlers.onUserJoined);
+    s.on(socketServerEvents.USER_JOINED, handlers.onUserJoined);
   }
   if (handlers.onUserLeft) {
-    socket.on(socketServerEvents.USER_LEFT, handlers.onUserLeft);
+    s.on(socketServerEvents.USER_LEFT, handlers.onUserLeft);
   }
   if (handlers.onRoomClosed) {
-    socket.on(socketServerEvents.ROOM_CLOSED, handlers.onRoomClosed);
+    s.on(socketServerEvents.ROOM_CLOSED, handlers.onRoomClosed);
   }
   if (handlers.onVoiceState) {
-    socket.on(socketServerEvents.VOICE_STATE, handlers.onVoiceState);
+    s.on(socketServerEvents.VOICE_STATE, handlers.onVoiceState);
   }
   if (handlers.onVoiceError) {
-    socket.on(socketServerEvents.VOICE_ERROR, handlers.onVoiceError);
+    s.on(socketServerEvents.VOICE_ERROR, handlers.onVoiceError);
   }
   if (handlers.onVoicePeerJoined) {
-    socket.on(socketServerEvents.VOICE_PEER_JOINED, handlers.onVoicePeerJoined);
+    s.on(socketServerEvents.VOICE_PEER_JOINED, handlers.onVoicePeerJoined);
   }
   if (handlers.onVoicePeerLeft) {
-    socket.on(socketServerEvents.VOICE_PEER_LEFT, handlers.onVoicePeerLeft);
+    s.on(socketServerEvents.VOICE_PEER_LEFT, handlers.onVoicePeerLeft);
   }
   if (handlers.onVoiceOffer) {
-    socket.on(socketServerEvents.VOICE_WEBRTC_OFFER, handlers.onVoiceOffer);
+    s.on(socketServerEvents.VOICE_WEBRTC_OFFER, handlers.onVoiceOffer);
   }
   if (handlers.onVoiceAnswer) {
-    socket.on(socketServerEvents.VOICE_WEBRTC_ANSWER, handlers.onVoiceAnswer);
+    s.on(socketServerEvents.VOICE_WEBRTC_ANSWER, handlers.onVoiceAnswer);
   }
   if (handlers.onVoiceIce) {
-    socket.on(socketServerEvents.VOICE_WEBRTC_ICE, handlers.onVoiceIce);
+    s.on(socketServerEvents.VOICE_WEBRTC_ICE, handlers.onVoiceIce);
   }
   if (handlers.onError) {
-    socket.on(socketServerEvents.ERROR, handlers.onError);
+    s.on(socketServerEvents.ERROR, handlers.onError);
   }
 };
 
-export const removeRoomListeners = (socket: Socket) => {
+export const removeRoomListeners = (socket: Socket<SocketServerToClientEvents, SocketClientToServerEvents>) => {
+  const s = socket as any;
   [
     socketServerEvents.ROOM_STATE,
     socketServerEvents.PLAYBACK_SYNC,
@@ -104,5 +107,5 @@ export const removeRoomListeners = (socket: Socket) => {
     socketServerEvents.VOICE_STATE,
     socketServerEvents.VOICE_ERROR,
     socketServerEvents.ERROR,
-  ].forEach((event) => socket.off(event));
+  ].forEach((event) => s.off(event));
 };

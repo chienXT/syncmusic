@@ -53,7 +53,14 @@ export default function SettingsPage() {
     try {
       const { data } = await userAPI.updatePreferences(updatedPreferences);
       if (data?.data?.preferences) {
-        setUser({ ...user, preferences: updatedPreferences });
+        if (user) {
+          setUser({
+            ...user,
+            _id: user._id || '',
+            username: user.username || '',
+            preferences: updatedPreferences,
+          });
+        }
       }
       setMessage('Đã lưu cài đặt!');
     } catch (err: any) {

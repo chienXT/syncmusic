@@ -140,7 +140,7 @@ export const useVoiceChat = ({ roomId, active, isInVoiceStage }: UseVoiceChatArg
     if (!audio) {
       audio = document.createElement('audio');
       audio.autoplay = true;
-      audio.playsInline = true;
+      audio.setAttribute('playsinline', 'true');
       audio.controls = false;
       audio.muted = false;
       audio.volume = 1;
@@ -283,18 +283,19 @@ export const useVoiceChat = ({ roomId, active, isInVoiceStage }: UseVoiceChatArg
     const onAnswer = (payload: WebRtcAnswerPayload) => { void handleAnswer(payload); };
     const onIce = (payload: WebRtcIcePayload) => { void handleIce(payload); };
 
-    socket.on(socketServerEvents.VOICE_PEER_JOINED, onPeerJoined);
-    socket.on(socketServerEvents.VOICE_PEER_LEFT, onPeerLeft);
-    socket.on(socketServerEvents.VOICE_WEBRTC_OFFER, onOffer);
-    socket.on(socketServerEvents.VOICE_WEBRTC_ANSWER, onAnswer);
-    socket.on(socketServerEvents.VOICE_WEBRTC_ICE, onIce);
+    const s = socket as any;
+    s.on(socketServerEvents.VOICE_PEER_JOINED, onPeerJoined);
+    s.on(socketServerEvents.VOICE_PEER_LEFT, onPeerLeft);
+    s.on(socketServerEvents.VOICE_WEBRTC_OFFER, onOffer);
+    s.on(socketServerEvents.VOICE_WEBRTC_ANSWER, onAnswer);
+    s.on(socketServerEvents.VOICE_WEBRTC_ICE, onIce);
 
     return () => {
-      socket.off(socketServerEvents.VOICE_PEER_JOINED, onPeerJoined);
-      socket.off(socketServerEvents.VOICE_PEER_LEFT, onPeerLeft);
-      socket.off(socketServerEvents.VOICE_WEBRTC_OFFER, onOffer);
-      socket.off(socketServerEvents.VOICE_WEBRTC_ANSWER, onAnswer);
-      socket.off(socketServerEvents.VOICE_WEBRTC_ICE, onIce);
+      s.off(socketServerEvents.VOICE_PEER_JOINED, onPeerJoined);
+      s.off(socketServerEvents.VOICE_PEER_LEFT, onPeerLeft);
+      s.off(socketServerEvents.VOICE_WEBRTC_OFFER, onOffer);
+      s.off(socketServerEvents.VOICE_WEBRTC_ANSWER, onAnswer);
+      s.off(socketServerEvents.VOICE_WEBRTC_ICE, onIce);
     };
   }, [cleanupPeer, handleAnswer, handleIce, handleOffer, handlePeerJoined, socket]);
 
