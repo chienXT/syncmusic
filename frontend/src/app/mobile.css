@@ -5,9 +5,11 @@
 ═══════════════════════════════════════════════════════════════ */
 
 /* Desktop/tablet default: mobile-only UI must stay hidden */
-.mb-header,
-.mb-tab-bar {
-  display: none;
+@media (min-width: 769px) {
+  .mb-header,
+  .mb-tab-bar {
+    display: none !important;
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -44,7 +46,7 @@
   /* ── Show mobile-only UI ── */
   .mb-header,
   .mb-tab-bar {
-    display: flex;
+    display: flex !important;
   }
 
   /* ── Hide desktop sidebar on mobile ── */
