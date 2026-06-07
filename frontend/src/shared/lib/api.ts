@@ -178,6 +178,8 @@ export const userAPI = {
     api.get('/users/recently-played'),
   updateProfile: (data: { username?: string; bio?: string; avatar?: string }) =>
     authAPI.updateProfile(data),
+  updatePreferences: (data: { theme?: string; notifications?: boolean; autoPlay?: boolean }) =>
+    api.put('/users/preferences', data),
 };
 
 // Message API
